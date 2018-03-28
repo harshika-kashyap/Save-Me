@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SaveMe</string>
+    <string name="location_permission_required">Location Permission is required to run this app!</string>
 </resources>
