@@ -8,7 +8,5 @@ public class MainActivityViewModel extends ViewModel {
 
     }
 
-    private void fetchUserLocation() {
 
-    }
 }
