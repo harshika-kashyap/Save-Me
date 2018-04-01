@@ -5,21 +5,18 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.example.android.saveme.R;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
+import com.example.android.saveme.common.data.pojo.Hospital;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     private MainActivityViewModel mainActivityViewModel;
     private FusedLocationProviderClient fusedLocationClient;
+    private List<Hospital> hospitals = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,18 +80,20 @@ public class MainActivity extends AppCompatActivity {
 
     private void fetchUserLocation() {
         fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        if (location != null) {
-                            fetchNearbyHospitals(location);
-                        }
+                .addOnSuccessListener(this, location -> {
+                    if (location != null) {
+                        fetchNearbyHospitals(location);
                     }
                 });
     }
 
     private void fetchNearbyHospitals(Location location) {
-        Log.v(TAG, location.getAltitude() + "");
+        mainActivityViewModel.getNearbyHospitals(location,
+                getResources().getString(R.string.api_key))
+                .observe(this, hospitalsList -> {
+                    this.hospitals.clear();
+                    this.hospitals.addAll(hospitalsList);
+                });
     }
 }
 
