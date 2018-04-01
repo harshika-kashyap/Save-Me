@@ -41,6 +41,6 @@ public class Result {
     public List<Photo> photos = null;
     @SerializedName("rating")
     @Expose
-    public Long rating;
+    public Double rating;
 
 }

@@ -11,12 +11,12 @@ import lombok.NoArgsConstructor;
 
 /**
  * Created by harshika on 1/4/18.
- * POJO for Hospital
+ * POJO for HospitalResponse
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Hospital {
+public class HospitalResponse {
 
     @SerializedName("html_attributions")
     @Expose

@@ -8,15 +8,21 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
 import com.example.android.saveme.R;
-import com.example.android.saveme.common.data.pojo.Hospital;
+import com.example.android.saveme.common.data.pojo.Result;
+import com.example.android.saveme.core.main.recycler_view.HospitalsAdapter;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,14 +31,22 @@ public class MainActivity extends AppCompatActivity {
 
     private MainActivityViewModel mainActivityViewModel;
     private FusedLocationProviderClient fusedLocationClient;
-    private List<Hospital> hospitals = new ArrayList<>();
+    private List<Result> hospitals = new ArrayList<>();
+    @BindView(R.id.rv_hospitals)
+    public RecyclerView hospitalsRecyclerView;
+    private HospitalsAdapter hospitalsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
         mainActivityViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
+
+        hospitalsAdapter = new HospitalsAdapter(hospitals);
+        hospitalsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        hospitalsRecyclerView.setAdapter(hospitalsAdapter);
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         getPermissions();
@@ -90,9 +104,10 @@ public class MainActivity extends AppCompatActivity {
     private void fetchNearbyHospitals(Location location) {
         mainActivityViewModel.getNearbyHospitals(location,
                 getResources().getString(R.string.api_key))
-                .observe(this, hospitalsList -> {
-                    this.hospitals.clear();
-                    this.hospitals.addAll(hospitalsList);
+                .observe(this, hospitalsResponse -> {
+                    hospitals.clear();
+                    hospitals.addAll(hospitalsResponse.results);
+                    hospitalsAdapter.notifyDataSetChanged();
                 });
     }
 }
