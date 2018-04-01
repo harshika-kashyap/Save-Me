@@ -1,6 +1,6 @@
 package com.example.android.saveme.common.network;
 
-import com.example.android.saveme.common.data.pojo.Hospital;
+import com.example.android.saveme.common.data.pojo.HospitalResponse;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
@@ -14,8 +14,8 @@ import retrofit2.http.Query;
 public interface API {
 
     @GET("json")
-    Observable<Hospital> getHospitals(@Query(value = "location") String location,
-                                      @Query(value = "radius") long radius,
-                                      @Query(value = "type") String type,
-                                      @Query(value = "key") String key);
+    Observable<HospitalResponse> getHospitals(@Query(value = "location") String location,
+                                              @Query(value = "radius") long radius,
+                                              @Query(value = "type") String type,
+                                              @Query(value = "key") String key);
 }
