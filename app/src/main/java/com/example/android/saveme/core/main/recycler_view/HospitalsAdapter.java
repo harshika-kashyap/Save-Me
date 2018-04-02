@@ -95,10 +95,14 @@ public class HospitalsAdapter extends RecyclerView.Adapter<HospitalsAdapter.View
                 } else {
                     status.setImageResource(R.drawable.ic_lock_black_24dp);
                 }
+            } else {
+                status.setImageResource(R.drawable.ic_lock_black_24dp);
             }
 
             if (hospital.rating != null) {
                 rating.setText(hospital.rating.toString());
+            } else {
+                rating.setVisibility(View.GONE);
             }
         }
     }
