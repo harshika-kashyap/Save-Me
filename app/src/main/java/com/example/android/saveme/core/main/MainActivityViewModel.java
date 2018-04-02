@@ -29,7 +29,7 @@ public class MainActivityViewModel extends ViewModel {
         double lat = location.getLatitude();
         double lng = location.getLongitude();
         String locationString = lat +  "," + lng;
-        long radius = 2500;
+        long radius = 7000;
 
         compositeDisposable.add(SaveMeApplication.getAPI()
                 .getHospitals(locationString, radius, "hospital", API_KEY)

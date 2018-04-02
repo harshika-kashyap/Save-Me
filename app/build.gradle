@@ -60,4 +60,7 @@ dependencies {
     // lombok
     compileOnly "org.projectlombok:lombok:1.16.20"
     annotationProcessor 'org.projectlombok:lombok:1.16.20'
+
+    //picasso
+    implementation 'com.squareup.picasso:picasso:2.5.2'
 }

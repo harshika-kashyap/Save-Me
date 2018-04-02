@@ -32,9 +32,10 @@ public class MainActivity extends AppCompatActivity {
     private MainActivityViewModel mainActivityViewModel;
     private FusedLocationProviderClient fusedLocationClient;
     private List<Result> hospitals = new ArrayList<>();
+    private HospitalsAdapter hospitalsAdapter;
+
     @BindView(R.id.rv_hospitals)
     public RecyclerView hospitalsRecyclerView;
-    private HospitalsAdapter hospitalsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         mainActivityViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
 
-        hospitalsAdapter = new HospitalsAdapter(hospitals);
+        hospitalsAdapter = new HospitalsAdapter(hospitals, this);
         hospitalsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         hospitalsRecyclerView.setAdapter(hospitalsAdapter);
 
